@@ -26,7 +26,7 @@ class SignUp extends Component {
     }
 
     sentFetch(e){
-        return fetch("http://livinir.herokuapp.com/api/auth/signup", {
+        return fetch("https://livinir.herokuapp.com/api/auth/signup", {
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
