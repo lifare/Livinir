@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {Redirect, Route} from 'react-router';
 import './Sign.css';
 
-const namesForm = ['email', 'login', 'firstName', 'lastName', 'password', 'dateOfBirth', 'Sex'];
+const namesForm = ['email', 'login', 'firstName', 'lastName', 'password', 'dateOfBirth', 'sex'];
 
 class SignUp extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class SignUp extends Component {
     }
 
     sentFetch(e){
-        return fetch("http://livinir.herokuapp.com/api/auth/signup", {
+        return fetch("https://livinir.herokuapp.com/api/auth/signup", {
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -67,8 +67,8 @@ class SignUp extends Component {
                 <input type='password' name='password' placeholder='Enter password' defaultValue='123456'/>
                 <input type='date' name='dateOfBirth' placeholder='Enter your birthday' defaultValue='2019-01-19'/>
                 <p> Your gender:
-                    <input type="radio" name="Sex" value='male' defaultChecked={true}/> Male
-                    <input type="radio" name="Sex" value='female'/> Female
+                    <input type="radio" name="sex" value='MALE' defaultChecked={true}/> Male
+                    <input type="radio" name="sex" value='FEMALE'/> Female
                 </p>
                 <button>Sign Up</button>
             </form>

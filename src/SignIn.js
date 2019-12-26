@@ -24,8 +24,7 @@ class SignIn extends Component{
     }
 
     sentFetch(e){
-        console.log(this.getDataForm(e));
-        return fetch("http://livinir.herokuapp.com/api/auth/signup", {
+        return fetch("https://livinir.herokuapp.com/api/auth/signin", {
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -36,12 +35,15 @@ class SignIn extends Component{
     }
     async sentData(e) {
         let {status, statusText} = ['', ''];
+        const email = e.target['email'].value;
         e.preventDefault();
         const response = await this.sentFetch(e);
         // cookie.save('userLog','sad', { path: '/'});
         if (response && response.ok) {
             const payload = await response.json();//жду jwt token и login пользователя
-            cookie.save('userLog', payload.login, { path: '/'});
+            cookie.save('email', email ,{ path: '/'});
+            cookie.save('token', payload.accessToken,{ path: '/'});
+            cookie.save('refresh', payload.refreshToken,{ path: '/'});
             this.setState({redirect: true});
         }else {
             if (response)

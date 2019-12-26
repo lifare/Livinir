@@ -8,16 +8,18 @@ class Menu extends Component{
     constructor(props){
         super(props)
         this.deleteCookie = this.deleteCookie.bind(this);
-        this.state = { userLog: cookie.load('userLog'), redirect: false}
+        this.state = { email: cookie.load('email'), redirect: false}
     }
 
 
     deleteCookie(e){
-        cookie.remove('userLog', { path: '/' });
-        this.setState({userLog: cookie.load('userLog'), redirect:true});
+        cookie.remove('email', { path: '/' });
+        cookie.remove('refresh', { path: '/' });
+        cookie.remove('token', { path: '/' });
+        this.setState({email: cookie.load('email'), redirect:true});
     }
         render(){
-            if (this.state.userLog){
+            if (this.state.email){
                 return(<div className='Menu'>
                     <img src={logotype} alt='logotype' height='90' width='100'/>
                     <ul className='nav'>

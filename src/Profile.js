@@ -10,26 +10,20 @@ const namesForm = ['owner', 'city', 'area', 'address', 'lease_date', 'descriptio
 class Profile extends Component{
     constructor(props){
         super(props)
-        const cur_cook = cookie.load('userLog');
+        const cur_cook = cookie.load('email');
+        this.state = { userEmail: cur_cook, redirect: false};
         this.getUserData = this.getUserData.bind(this);
         this.returnMain = this.returnMain.bind(this);
         this.sentFetch = this.sentFetch.bind(this);
         this.sentData = this.sentData.bind(this);
-        if (cur_cook) {
-            const data = this.getUserData(cookie);
-            this.state = {
-                userLog: cur_cook, redirect: false, email: data.email, login: data.login,
-                firstName: data.firstName, lastName: data.lastName, birthday: data.birthday, gender: data.gender
-            }
-        } else
-            this.state = { userLog: cur_cook, redirect: false};
+        if (cur_cook)
+            this.getUserData(cookie.load('email'));
     }
 
     returnMain(e){
         this.setState({redirect: true});
     }
     getDataForm(e){
-        const form = document.querySelector('.Sign');
         const cur_data = {};
         for (const name of namesForm)
             cur_data[name] = e.target[name].value
@@ -44,27 +38,39 @@ class Profile extends Component{
     }
 
     sentFetch(e){
-        return fetch("http://livinir.herokuapp.com/add-announcement", {
+        return fetch("https://livinir.herokuapp.com/addAnnouncement", {
             headers:{
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + cookie.load('token')
             },
             method: "POST",
             body: JSON.stringify(this.getDataForm(e))
         }).catch(reason => console.log('Server not available. Please try sing up later.'))
     }
 
-    async getUserData(login){
-        let result = await fetch(`http://livinir.herokuapp.com/profile?login=${login}`).catch(error=>console.log(error));
-        if (result.ok)
-            return await result.json();
-        console.log('error');
+    async getUserData(email){
+        let result = await fetch(`https://livinir.herokuapp.com/profile?email=${email}`,
+            {
+                headers:{
+                    'Authorization': 'Bearer ' + cookie.load('token')
+                }
+            }).catch(error=>console.log(error));
+        if (result.ok) {
+            const data = await result.json();
+            this.setState( {
+                userEmail: email, redirect: false, email: data.email, login: data.login,
+                firstName: data.firstName, lastName: data.lastName, birthday: data.dateOfBirth, gender: data.sex
+            })
+        }
+        else
+            console.log('error');
     }
 
     render() {
         if (this.state.redirect === true)
             return <Redirect to={'/'}/>;
-        if(!this.state.userLog)
+        if(!this.state.userEmail)
             return (<div className='ParentSign'><div className='Sign'><p className='Fail'>Please, login!</p><button className='Fail' onClick={this.returnMain}>Ok</button></div></div>);
         return(<div>
                 <Menu></Menu>
@@ -72,7 +78,6 @@ class Profile extends Component{
                     <div className='DataProfile'>
                         <h3>Data_user</h3>
                         <p>Email: {this.state.email}</p>
-                        <p>Login: {this.state.login}</p>
                         <p>FirstName: {this.state.firstName}</p>
                         <p>LastName: {this.state.lastName}</p>
                         <p>Date of birthday: {this.state.birthday}</p>
@@ -80,7 +85,7 @@ class Profile extends Component{
                     </div>
                     <form onSubmit={this.sentData} className='DataAd'>
                         <h3>Create_Ad</h3>
-                        <input type='text' name='owner' placeholder='Enter your login' defaultValue={this.state.login}/>
+                        <input type='text' name='owner' placeholder='Enter your email' defaultValue={this.state.email}/>
                         <input type='text' name='city' placeholder='Enter your city' defaultValue='Екатеринбург'/>
                         <input type='text' name='area' placeholder='Enter your area' defaultValue='Ботаника'/>
                         <input type='text' name='address' placeholder='Enter your address' defaultValue='Крестинского 40'/>
