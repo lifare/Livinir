@@ -26,8 +26,8 @@ class Ad extends Component{
             lease_date: this.props.ad.lease_date,
             address: this.props.ad.address,
             description: this.props.ad.description,
-            email: this.props.user.email,
-            name: this.props.user.name,
+            email: this.props.ad.owner,
+            name: 'name',
             open: false
         }
         this.OpenAd = this.OpenAd.bind(this);

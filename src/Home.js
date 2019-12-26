@@ -24,14 +24,15 @@ class Home extends Component{
     }
 
     async sentFetch(e){
-        let result =  await fetch("https://livinir.herokuapp.com/getAdsParams",{
+        const res = this.getDataForm(e);
+        let result =  await fetch(`https://livinir.herokuapp.com/getAdsParams?area=${res['area']}&city=${res['city']}&lease_date=${res['lease_date']}&sex=${res['sex']}`,{
             headers:{
                 'Authorization': 'Bearer ' + cookie.load('token')
             }
         }).catch(error=>console.log(error));
         if (result.ok) {
             const data = await result.json();
-            this.setState({ads: result});
+            this.setState({ads: result.ads});
         }
     }
 
@@ -41,7 +42,7 @@ class Home extends Component{
         let {status, statusText} = ['', ''];
         e.preventDefault();
         const response = await this.sentFetch(e);
-        console.log(response.ok);
+        console.log(response);
     }
 
     async getAds(){
@@ -49,7 +50,7 @@ class Home extends Component{
         if (result && result.ok) {
             console.log(result)
             result = await result.json();
-            this.setState({ads : result})
+            this.setState({ads : result.ads})
         }
         else
             console.log('error');
