@@ -5,14 +5,14 @@ class TableAd extends Component{
 
     constructor(props){
         super(props)
-        const ads = this.props.ads.map((item, index)=> <li key={index}><Ad ad={item}/></li> )
-        this.state = {ads: ads};
+        // this.state = {ads: ads};
     }
 
     render() {
+        const ads = this.props.ads.map((item, index)=> <li key={index}><Ad ad={item}/></li> )
         return(<div className="Table">
             <ul>
-                {this.state.ads}
+                {ads}
             </ul>
         </div>);
     }

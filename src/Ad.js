@@ -20,14 +20,14 @@ class Ad extends Component{
         //     open: false
         // }
         this.state={
-            owner: this.props.ad.owner,
-            city: this.props.ad.city,
-            area: this.props.ad.area,
-            lease_date: this.props.ad.lease_date,
-            address: this.props.ad.address,
-            description: this.props.ad.description,
-            email: this.props.ad.owner,
-            name: 'name',
+            // owner: this.props.ad.owner,
+            // city: this.props.ad.city,
+            // area: this.props.ad.area,
+            // lease_date: this.props.ad.lease_date,
+            // address: this.props.ad.address,
+            // description: this.props.ad.description,
+            // email: this.props.ad.owner,
+            // name: 'name',
             open: false
         }
         this.OpenAd = this.OpenAd.bind(this);
@@ -44,23 +44,23 @@ class Ad extends Component{
     render() {
         if (this.state.open === true)
             return (<div className="AdDetailed">
-                    <h3> {this.state.owner} </h3>
-                    {this.state.name}<br/>
-                    {this.state.email}<br/>
-                    {this.state.city} <br/>
-                    {this.state.area}<br/>
-                    {this.state.lease_date}<br/>
-                    {this.state.address}<br/>
+                    <h3> {this.props.ad.owner} </h3>
+                    {this.props.ad.name}<br/>
+                    {this.props.ad.email}<br/>
+                    {this.props.ad.city} <br/>
+                    {this.props.ad.area}<br/>
+                    {this.props.ad.lease_date}<br/>
+                    {this.props.ad.address}<br/>
                     <br/>
-                    <div className='Content'>{this.state.description}</div><br/>
+                    <div className='Content'>{this.props.ad.description}</div><br/>
                     <button className="CloseDetailed " onClick={this.CloseAd}>close detailed</button>
             </div>
             );
         return ( <div className="Ad">
-            <h3> {this.state.owner} </h3>
-            {this.state.city} <br/>
-            {this.state.area}<br/>
-            {this.state.lease_date}
+            <h3> {this.props.ad.owner} </h3>
+            {this.props.ad.city} <br/>
+            {this.props.ad.area}<br/>
+            {this.props.ad.lease_date}
             <button className="detailed" onClick={this.OpenAd}>more detailed</button>
         </div>
         );

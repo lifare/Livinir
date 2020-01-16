@@ -32,7 +32,7 @@ class Home extends Component{
         }).catch(error=>console.log(error));
         if (result.ok) {
             const data = await result.json();
-            this.setState({ads: result.ads});
+            return data.ads
         }
     }
 
@@ -41,8 +41,9 @@ class Home extends Component{
             return
         let {status, statusText} = ['', ''];
         e.preventDefault();
-        const response = await this.sentFetch(e);
-        console.log(response);
+        const result = await this.sentFetch(e);
+        console.log(result)
+        this.setState({ads: result});
     }
 
     async getAds(){
@@ -50,13 +51,14 @@ class Home extends Component{
         if (result && result.ok) {
             console.log(result)
             result = await result.json();
-            this.setState({ads : result.ads})
+            this.setState({ads : result.ads.slice(0,12)})
         }
         else
             console.log('error');
     }
 
     render() {
+        console.log(this.state.ads)
         if (this.state.ads) {
             return (<div>
                     <Menu></Menu>

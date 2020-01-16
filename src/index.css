@@ -8,6 +8,7 @@ body, html {
   background-size: 100%;
   /*background: linear-gradient(172deg, rgba(255,255,255,1) 17%, rgba(233,233,255,1) 41%, rgba(215,173,255,1) 61%, rgba(183,148,255,1) 87%, rgba(176,169,223,1) 100%);*/
   min-height: 100%;
+  z-index: -1;
 }
 
 code {
