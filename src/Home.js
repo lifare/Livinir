@@ -50,7 +50,7 @@ class Home extends Component{
         if (result && result.ok) {
             console.log(result)
             result = await result.json();
-            this.setState({ads : result.ads})
+            this.setState({ads : result.ads.slice(0,12)})
         }
         else
             console.log('error');
